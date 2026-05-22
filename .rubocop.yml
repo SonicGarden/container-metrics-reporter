@@ -1,0 +1,9 @@
+plugins:
+  - rubocop-rspec
+
+inherit_gem:
+  sgcop: ruby/rubocop.yml
+
+AllCops:
+  SuggestExtensions: false
+  NewCops: enable
