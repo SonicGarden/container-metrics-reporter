@@ -1,0 +1,33 @@
+name: Ruby
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BUNDLE_JOBS: 4
+      BUNDLE_RETRY: 3
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: ["3.3", "3.4", "4.0"]
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c # v3
+        with:
+          path: /home/runner/bundle
+          key: bundle-${{ matrix.ruby }}-${{ hashFiles('**/*.gemspec') }}
+          restore-keys: |
+            bundle-${{ matrix.ruby }}-
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@6aaa311d81eba98ae12eaffbcb63296ace0efcde # v1.307.0
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Run rspec
+        run: bundle exec rspec
