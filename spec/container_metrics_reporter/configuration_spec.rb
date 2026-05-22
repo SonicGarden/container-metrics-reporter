@@ -25,6 +25,27 @@ RSpec.describe ContainerMetricsReporter::Configuration do
     end
   end
 
+  describe '#hostname' do
+    context 'when HOSTNAME env is set' do
+      before { stub_const('ENV', ENV.to_h.merge('HOSTNAME' => 'web-1.example.com')) }
+
+      it 'uses the hostname without domain' do
+        expect(config.hostname).to eq('web-1')
+      end
+    end
+
+    context 'when HOSTNAME env is not set' do
+      before do
+        stub_const('ENV', ENV.to_h.except('HOSTNAME'))
+        allow(Socket).to receive(:gethostname).and_return('db-server.internal')
+      end
+
+      it 'uses Socket.gethostname without domain' do
+        expect(config.hostname).to eq('db-server')
+      end
+    end
+  end
+
   describe 'setters' do
     it 'allows updating interval' do
       config.interval = 10.minutes
@@ -48,6 +69,12 @@ RSpec.describe ContainerMetricsReporter::Configuration do
       config.collect_cpu = false
 
       expect(config.collect_cpu).to be(false)
+    end
+
+    it 'allows overriding hostname' do
+      config.hostname = 'custom-host'
+
+      expect(config.hostname).to eq('custom-host')
     end
   end
 end

@@ -2,7 +2,7 @@
 
 module ContainerMetricsReporter
   class Configuration
-    attr_accessor :interval, :sleep_tick, :collect_cpu, :collect_memory, :collect_swap
+    attr_accessor :interval, :sleep_tick, :collect_cpu, :collect_memory, :collect_swap, :hostname
 
     def initialize
       @interval = 5.minutes
@@ -10,6 +10,7 @@ module ContainerMetricsReporter
       @collect_cpu = true
       @collect_memory = true
       @collect_swap = true
+      @hostname = ENV.fetch('HOSTNAME', Socket.gethostname).split('.').first
     end
   end
 end

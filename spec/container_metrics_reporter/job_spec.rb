@@ -156,28 +156,14 @@ RSpec.describe ContainerMetricsReporter::Job do
       end
     end
 
-    context 'when HOSTNAME env is set' do
-      before { stub_const('ENV', ENV.to_h.merge('HOSTNAME' => 'web-1.example.com')) }
+    context 'when hostname is configured' do
+      before { allow(ContainerMetricsReporter.config).to receive(:hostname).and_return('web-1') }
 
-      it 'uses the hostname without domain' do
+      it 'uses the configured hostname' do
         job.perform
         expect(sentry_metrics).to have_received(:gauge)
           .with('container_memory_usage_percent', anything,
                 unit: 'percent', attributes: { hostname: 'web-1' })
-      end
-    end
-
-    context 'when HOSTNAME env is not set' do
-      before do
-        stub_const('ENV', ENV.to_h.except('HOSTNAME'))
-        allow(Socket).to receive(:gethostname).and_return('db-server.internal')
-      end
-
-      it 'uses Socket.gethostname without domain' do
-        job.perform
-        expect(sentry_metrics).to have_received(:gauge)
-          .with('container_memory_usage_percent', anything,
-                unit: 'percent', attributes: { hostname: 'db-server' })
       end
     end
   end

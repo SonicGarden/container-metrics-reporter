@@ -43,7 +43,7 @@ module ContainerMetricsReporter
     end
 
     def perform
-      attributes = { hostname: ENV.fetch('HOSTNAME', Socket.gethostname).split('.').first }
+      attributes = { hostname: config.hostname }
 
       send_memory(attributes) if config.collect_memory
       send_swap(attributes) if config.collect_swap
