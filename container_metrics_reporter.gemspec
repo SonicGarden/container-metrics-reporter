@@ -3,7 +3,7 @@
 require_relative 'lib/container_metrics_reporter/version'
 
 Gem::Specification.new do |spec|
-  spec.name    = 'container-metrics-reporter'
+  spec.name    = 'container_metrics_reporter'
   spec.version = ContainerMetricsReporter::VERSION
   spec.authors = ['SonicGarden']
   spec.summary = 'Report container cgroup metrics (memory, CPU) to Sentry via SolidQueue worker lifecycle hooks'
