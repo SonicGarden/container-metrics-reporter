@@ -43,7 +43,7 @@ Each worker process reports the following gauges to Sentry immediately on startu
 |---|---|---|
 | `container_memory_usage_percent` | percent | Memory usage relative to the cgroup limit |
 | `container_swap_usage_percent` | percent | Swap usage relative to the cgroup limit |
-| `container_cpu_usage_percent` | percent | CPU usage since the previous collection |
+| `container_cpu_usage_percent` | percent | CPU usage as a percentage of one core (100% = 1 core fully used, 200% = 2 cores fully used) |
 
 All metrics include a `hostname` attribute.
 
