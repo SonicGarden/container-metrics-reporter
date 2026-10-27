@@ -17,15 +17,15 @@ jobs:
       matrix:
         ruby: ["3.3", "3.4", "4.0"]
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c # v3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: /home/runner/bundle
           key: bundle-${{ matrix.ruby }}-${{ hashFiles('**/*.gemspec') }}
           restore-keys: |
             bundle-${{ matrix.ruby }}-
       - name: Set up Ruby
-        uses: ruby/setup-ruby@6aaa311d81eba98ae12eaffbcb63296ace0efcde # v1.307.0
+        uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
